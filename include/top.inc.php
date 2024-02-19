@@ -1,9 +1,9 @@
 <?php
 
-$servername = "35.199.127.27";
-$username = "root";
-$password = "root";
-$dbname = "Seemus";
+$servername = "twyxt.io";
+$username = "ben";
+$password = "Iamlike12";
+$dbname = "seemus_ben";
 
 
 
