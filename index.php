@@ -22,7 +22,7 @@ if(isset($_REQUEST["activity"])) {
         <title><?php echo $activity ?></title>
     </head>
     <body>
-        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">LOGOUT</a> |
+        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a> |
 
         <?php
         switch($activity) {
@@ -59,7 +59,6 @@ if(isset($_REQUEST["activity"])) {
             break;
 
 
-            switch($activity) {
                 case "FILES":
                     $sql = "SELECT * FROM `tbFiles`";
                     $order=formRequest("order");
@@ -104,7 +103,7 @@ if(isset($_REQUEST["activity"])) {
                       }
                       echo "</table>";
                     }
-                }
+                
                        
                       
 
@@ -112,7 +111,6 @@ if(isset($_REQUEST["activity"])) {
 
 
                     
-                }
                 break;
 
             case "LOGOUT":
@@ -212,7 +210,7 @@ if(isset($_REQUEST["activity"])) {
      default:
                 //RUN DEFAULT or READ always if blank or READ
      
-
+        }
         ?>
     </body>
 </html>

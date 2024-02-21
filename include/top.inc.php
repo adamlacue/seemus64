@@ -16,6 +16,15 @@ try {
   echo $e->getMessage();
   }
   
+
+  function formRequest($inputName) {
+    if(isset($_REQUEST[$inputName])) {
+      return $_REQUEST[$inputName];
+    }
+    return "";
+  }
+  
+  
   
 
 // try {
