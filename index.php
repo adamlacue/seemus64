@@ -107,7 +107,7 @@ if(isset($_REQUEST["activity"])) {
                     </form>
                     <?php
       
-                    $sql = "SELECT id,fdFilename,fdFilesType,file,fdDateTime,fdArchive FROM `tbFiles`";
+                    $sql = "SELECT id,fdFilename,fdFilesType,fdFile,fdDateTime,fdArchive FROM `tbFiles`";
       
                     $order=formRequest("order");
                     if($order!=""){
