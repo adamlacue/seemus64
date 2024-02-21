@@ -13,7 +13,7 @@ $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 // Check if $result has anything in it or not (Returns a FALSE if no data in there).
 if($result) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        header("Content-Type: " . $row["fdFilesTypes"]);
+        header("Content-Type: " . $row["fdFilesType"]);
         echo $row["fdFile"];
     }
 }
