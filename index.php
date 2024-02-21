@@ -107,7 +107,7 @@ if(isset($_REQUEST["activity"])) {
                     </form>
                     <?php
       
-                    $sql = "SELECT id,fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
+                    $sql = "SELECT id,fdFilename,fdFilesType,fdFilesSize,fdDateTime,fdArchive FROM `tbFiles`";
       
                     $order=formRequest("order");
                     if($order!=""){
@@ -162,7 +162,7 @@ if(isset($_REQUEST["activity"])) {
 
 
                     
-                break;
+           
 
             case "LOGOUT":
                 // User Logout
