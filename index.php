@@ -102,7 +102,7 @@ if(isset($_REQUEST["activity"])) {
                     <form action="index.php" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="activity" value="FILE-CREATE-PROCESS">
                     <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                    <input type="file" name="File" placeholder="File" value="">
+                    <input type="File" name="File" placeholder="File" value="">
                     <input type="submit" name="Submit" value="UPLOAD!"><br>
                     </form>
                     <?php
