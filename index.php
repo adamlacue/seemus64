@@ -66,8 +66,8 @@ if(isset($_REQUEST["activity"])) {
                             $sql = "INSERT INTO tbFiles(fdFileType ,fdFile) VALUES(:FileType, :FileData)";
                             $statement = $conn->prepare($sql);
 
-                            $statement->bindParam('Filetype', $imgType, $PDO::PARAM_INT);
-                            $statement->bindParam('FileData', $imgType, $PDO::PARAM_INT);
+                            $statement->bindParam('Filetype', $imgType, PDO::PARAM_INT);
+                            $statement->bindParam('FileData', $imgType, PDO::PARAM_INT);
                             $current_id = $statement->execute() or die("<b>Error:</b> Problem on Image Insert<br/>" . mysqli_connect_error());
                         }
                     }
