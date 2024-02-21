@@ -18,5 +18,4 @@ if($result) {
     }
 }
 
-include "include/bottom.inc.php";
 ?>
