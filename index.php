@@ -22,7 +22,7 @@ if(isset($_REQUEST["activity"])) {
         <title><?php echo $activity ?></title>
     </head>
     <body>
-        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a> |
+        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a> | <a href="index.php?activity=CONTENT">CONTENT</a> |
 
         <?php
         switch($activity) {
