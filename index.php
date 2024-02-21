@@ -66,7 +66,6 @@ if(isset($_REQUEST["activity"])) {
                     <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
                     <input type="hidden" name="activity" value=" FILE-CREATE-PROCESS">
                     <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                    <input type="text" name="FileName" placeholder="FilesNAme" value=""><br>
                     <input type="file" name="file" placeholder="files" value=""><br>
                     <input type="submit" value="UPDATE!"><br>
                     </form>
