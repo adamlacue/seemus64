@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
-// Utils::prettyPrint("SELECT * FROM Seemus.tbTable;");
+
 
 function redirectJS($newActivity,$redirReason,$otherParams="") {
   echo("<script>window.location='index.php?activity=".$newActivity."&reason=".$redirReason."&".$otherParams."';</script>");
