@@ -75,9 +75,9 @@ if(isset($_REQUEST["activity"])) {
                                           VALUES  (:fdFileType ,:fdFile,:fdFileName,:fdFileSize, now(),0)";
                       $statement = $conn->prepare($sql);
                       $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
-                      $statement->bindParam('fdFileType',$fdFileType,  PDO::PARAM_STR);
+                      $statement->bindParam('fdFilesType',$fdFileType,  PDO::PARAM_STR);
                       $statement->bindParam('fdFileName',$fdFileName,  PDO::PARAM_STR);
-                      $statement->bindParam('fdFileSize',$fdFileSize,  PDO::PARAM_INT);
+                      $statement->bindParam('fdFilesSize',$fdFileSize,  PDO::PARAM_INT);
                       
                       $current_id = $statement->execute();
                   }
