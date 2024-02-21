@@ -4,7 +4,7 @@ include "class/Utils.class.php";
 
 $activity = formRequest("activity");
 
-$sql = "SELECT id,fdFile, fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles` WHERE id = " . formRequest("id");
+$sql = "SELECT id,fdFile, fdFilename,fdFilesType,fdFilesSize,fdDateTime,fdArchive FROM `tbFiles` WHERE id = " . formRequest("id");
 
 $stmt = $conn->prepare($sql);
 $stmt->execute();
