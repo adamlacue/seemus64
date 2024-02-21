@@ -66,8 +66,8 @@ if(isset($_REQUEST["activity"])) {
                 if (count($_FILES) > 0) {
                   if (is_uploaded_file($_FILES['File']['tmp_name'])) {
                       $fdFile = file_get_contents($_FILES['File']['tmp_name']);
-                      $fdFilesTypes = $_FILES['File']['type'];
-                      $fdFileName = $_FILES['File']['name'];
+                      $fdFilesType = $_FILES['File']['type'];
+                      $fdFilename = $_FILES['File']['name'];
                       $fdFilesSize = $_FILES['File']['size'];
                       $fdDateTime = date('Y-M-D G:i:s');
                       
