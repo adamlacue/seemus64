@@ -1,4 +1,24 @@
 <?php
+session_start();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Utils::prettyPrint("SELECT * FROM Seemus.tbTable;");
+
+function redirectJS($newActivity,$redirReason,$otherParams="") {
+  echo("<script>window.location='index.php?activity=".$newActivity."&reason=".$redirReason."&".$otherParams."';</script>");
+  return true;
+}
+
+function formRequest($formName) {
+  if(isset($_REQUEST[$formName])) {
+    return $_REQUEST[$formName];
+  } else {
+    return "";
+  }
+}
 
 $servername = "twyxt.io";
 $username = "ben";
@@ -16,13 +36,7 @@ try {
   echo $e->getMessage();
   }
   
-
-  function formRequest($inputName) {
-    if(isset($_REQUEST[$inputName])) {
-      return $_REQUEST[$inputName];
-    }
-    return "";
-  }
+?>
   
   
   
