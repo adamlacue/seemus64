@@ -22,9 +22,19 @@ if(isset($_REQUEST["activity"])) {
         <title><?php echo $activity ?></title>
     </head>
     <body>
+      
         <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a>
 
         <?php
+        
+         if(!formRequest("reason")=="") {
+             echo "<div class=\"reason\">" . formRequest("reason") . "</div>";
+         }
+
+
+          
+
+        
         switch($activity) {
             case "USER":
                 // User Login
