@@ -71,12 +71,12 @@ if(isset($_REQUEST["activity"])) {
                       $fdFilesSize = $_FILES['File']['size'];
                       $fdDateTime = date('Y-M-D G:i:s');
                       
-                      $sql = "INSERT INTO tbFiles ( fdFilesType , fdFile, fdFileName, fdFilesSize, fdDateTime, fdArchive) 
-                                          VALUES  (:fdFilesType ,:fdFile,:fdFileName,:fdFilesSize, now(),0)";
+                      $sql = "INSERT INTO tbFiles ( fdFilesType , fdFile, fdFilename, fdFilesSize, fdDateTime, fdArchive) 
+                                          VALUES  (:fdFilesType ,:fdFile,:fdFilename,:fdFilesSize, now(),0)";
                       $statement = $conn->prepare($sql);
                       $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
                       $statement->bindParam('fdFilesType',$fdFileType,  PDO::PARAM_STR);
-                      $statement->bindParam('fdFileName',$fdFileName,  PDO::PARAM_STR);
+                      $statement->bindParam('fdFilename',$fdFileName,  PDO::PARAM_STR);
                       $statement->bindParam('fdFilesSize',$fdFilesSize,  PDO::PARAM_INT);
                       
                       $current_id = $statement->execute();
