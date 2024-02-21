@@ -22,7 +22,7 @@ if(isset($_REQUEST["activity"])) {
         <title><?php echo $activity ?></title>
     </head>
     <body>
-        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a> | <a href="index.php?activity=CONTENT">CONTENT</a> |
+        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a>
 
         <?php
         switch($activity) {
@@ -61,102 +61,96 @@ if(isset($_REQUEST["activity"])) {
 
 
             case "FILE-CREATE-PROCESS":
-                // echo $_FILES['File']["name"];
-              if($activity=="FILE-CREATE-PROCESS") {
-                if (count($_FILES) > 0) {
-                  if (is_uploaded_file($_FILES['File']['tmp_name'])) {
-                      $fdFile = file_get_contents($_FILES['File']['tmp_name']);
-                      $fdFilesType = $_FILES['File']['type'];
-                      $fdFilename = $_FILES['File']['name'];
-                      $fdFilesSize = $_FILES['File']['size'];
-                      $fdDateTime = date('Y-M-D G:i:s');
-                      
-                      $sql = "INSERT INTO tbFiles ( fdFilesType , fdFile, fdFilename, fdFilesSize, fdDateTime, fdArchive) 
-                                          VALUES  (:fdFilesType ,:fdFile,:fdFilename,:fdFilesSize, now(),0)";
-                      $statement = $conn->prepare($sql);
-                      $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
-                      $statement->bindParam('fdFilesType',$fdFilesType,  PDO::PARAM_STR);
-                      $statement->bindParam('fdFilename',$fdFilename,  PDO::PARAM_STR);
-                      $statement->bindParam('fdFilesSize',$fdFilesSize,  PDO::PARAM_INT);
-                      
-                      $current_id = $statement->execute();
-                  }
-              }
+              // echo $_FILES['File']["name"];
+            if($activity=="FILE-CREATE-PROCESS") {
+              if (count($_FILES) > 0) {
+                if (is_uploaded_file($_FILES['File']['tmp_name'])) {
+                    $fdFile = file_get_contents($_FILES['File']['tmp_name']);
+                    $fdFileType = $_FILES['File']['type'];
+                    $fdFileName = $_FILES['File']['name'];
+                    $fdFileSize = $_FILES['File']['size'];
+                    $fdDateTime = date('Y-M-D G:i:s');
+                    
+                    $sql = "INSERT INTO tbFiles ( fdFileType , fdFile, fdFileName, fdFileSize, fdDateTime, fdArchive) 
+                                        VALUES  (:fdFileType ,:fdFile,:fdFileName,:fdFileSize, now(),0)";
+                    $statement = $conn->prepare($sql);
+                    $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
+                    $statement->bindParam('fdFileType',$fdFileType,  PDO::PARAM_STR);
+                    $statement->bindParam('fdFileName',$fdFileName,  PDO::PARAM_STR);
+                    $statement->bindParam('fdFileSize',$fdFileSize,  PDO::PARAM_INT);
+                    
+                    $current_id = $statement->execute();
+                }
+            }
+          }
+
+          case "FILE-DELETE-PROCESS":
+            if($activity=="FILE-DELETE-PROCESS") {
+                    $sql = "DELETE FROM tbFiles WHERE id = ". formRequest("id");
+                    $statement = $conn->prepare($sql);
+                    $current_id = $statement->execute();
             }
 
-            break;  
 
+          case "FILES": // File Listing
 
-            case "FILE-DELETE-PROCESS":
-                if($activity=="FILE-DELETE-PROCESS") {
-                        $sql = "DELETE FROM tbFiles WHERE id = ". formRequest("id");
-                        $statement = $conn->prepare($sql);
-                        $current_id = $statement->execute();
-                }
+              ?><br>
+              <form action="index.php" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="activity" value="FILE-CREATE-PROCESS">
+              <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
+              <input type="file" name="File" placeholder="File" value="">
+              <input type="submit" name="Submit" value="UPLOAD!"><br>
+              </form>
+              <?php
 
+              $sql = "SELECT id,fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
 
-
-                case "FILES": // File Listing
-
-                    ?><br>
-                    <form action="index.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="activity" value="FILE-CREATE-PROCESS">
-                    <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                    <input type="file" name="File" placeholder="File" value="">
-                    <input type="submit" name="Submit" value="UPLOAD!"><br>
-                    </form>
-                    <?php
-      
-                    $sql = "SELECT id,fdFilename,fdFilesType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
-
-      
-                    $order=formRequest("order");
-                    if($order!=""){
-                      $sql = $sql . "ORDER BY $order";
-                    }
-                    
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+              $order=formRequest("order");
+              if($order!=""){
+                $sql = $sql . "ORDER BY $order";
+              }
               
-                    // Check if $result has anything in it or not (Returns a FALSE if no data in there).
-                    if($result) {
-                      echo "<table border=1>";   // Start Table
-                      $firstRowPrinted = false;
-                      $i=1;
-                      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        if($firstRowPrinted == false) {
-                          echo "<tr>";               // Start HEADER Row
-                          echo "<th>##</th>";
-                          //echo "<th>UPDATE</th>";
-                          echo "<th>DELETE</th>";
-                          echo "<th>VIEW</th>";
-                          foreach($row as $col_name => $val) {
-                            if($order == "`$col_name`") {
-                              echo "<th><a href=\"index.php?activity=FILES&order=`$col_name` DESC\">$col_name</a></th>";    
-                            } else {
-                              echo "<th><a href=\"index.php?order=`$col_name`\">$col_name</a></th>"; 
-                            }
-                          }
-                          echo "</tr>";               // END Header Row
-                          $firstRowPrinted = true;
-                        }
-                        echo "<tr>";               // Start Row
-                        echo "<td>" . $i . "</td>";
-                        $i=$i+1;
-                        //echo "<td><a href=\"index.php?activity=FILE-UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
-                        echo "<td><a href=\"index.php?activity=FILE-DELETE-PROCESS&id=".$row["id"]."&order=$order\">DELETE</a></td>";
-                        echo "<td><a href=\"view.php?id=".$row["id"]."\" target=\"_blank\">VIEW</a></td>";
-                        foreach($row as $col_name => $val) {
-                          echo "<td>$val</td>";    // Print Each Field VALUE
-                        }
-                        echo "</tr>";               // Start Row
+              $stmt = $conn->prepare($sql);
+              $stmt->execute();
+              $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        
+              // Check if $result has anything in it or not (Returns a FALSE if no data in there).
+              if($result) {
+                echo "<table border=1>";   // Start Table
+                $firstRowPrinted = false;
+                $i=1;
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                  if($firstRowPrinted == false) {
+                    echo "<tr>";               // Start HEADER Row
+                    echo "<th>##</th>";
+                    //echo "<th>UPDATE</th>";
+                    echo "<th>DELETE</th>";
+                    echo "<th>VIEW</th>";
+                    foreach($row as $col_name => $val) {
+                      if($order == "`$col_name`") {
+                        echo "<th><a href=\"index.php?activity=FILES&order=`$col_name` DESC\">$col_name</a></th>";    
+                      } else {
+                        echo "<th><a href=\"index.php?order=`$col_name`\">$col_name</a></th>"; 
                       }
-                      echo "</table>";
                     }
-      
-                    break;
-                       
+                    echo "</tr>";               // END Header Row
+                    $firstRowPrinted = true;
+                  }
+                  echo "<tr>";               // Start Row
+                  echo "<td>" . $i . "</td>";
+                  $i=$i+1;
+                  //echo "<td><a href=\"index.php?activity=FILE-UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
+                  echo "<td><a href=\"index.php?activity=FILE-DELETE-PROCESS&id=".$row["id"]."&order=$order\">DELETE</a></td>";
+                  echo "<td><a href=\"view.php?id=".$row["id"]."\" target=\"_blank\">VIEW</a></td>";
+                  foreach($row as $col_name => $val) {
+                    echo "<td>$val</td>";    // Print Each Field VALUE
+                  }
+                  echo "</tr>";               // Start Row
+                }
+                echo "</table>";
+              }
+
+              break;
                       
 
                     
