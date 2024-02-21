@@ -58,42 +58,62 @@ if(isset($_REQUEST["activity"])) {
                 }
             break;
 
-                case "FILE-CREATE-PROCESS": 
-                    if (count($_FILES) > 0) {
-                        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-                            $imgData = file_get_contents($_FILES['file']['tmp_name']);
-                            $imgType = $_FILES['file']['type'];
-                            $sql = "INSERT INTO tbFiles(fdFileType ,fdFile) VALUES(:FileType, :FileData)";
-                            $statement = $conn->prepare($sql);
-
-                            $statement->bindParam('Filetype', $imgType, PDO::PARAM_INT);
-                            $statement->bindParam('FileData', $imgType, PDO::PARAM_INT);
-                            $current_id = $statement->execute() or die("<b>Error:</b> Problem on Image Insert<br/>" . mysqli_connect_error());
-                        }
-                    }
-                
-                    
 
 
-                case "FILES":
+            case "FILE-CREATE-PROCESS":
+                // echo $_FILES['File']["name"];
+              if($activity=="FILE-CREATE-PROCESS") {
+                if (count($_FILES) > 0) {
+                  if (is_uploaded_file($_FILES['File']['tmp_name'])) {
+                      $fdFile = file_get_contents($_FILES['File']['tmp_name']);
+                      $fdFileType = $_FILES['File']['type'];
+                      $fdFileName = $_FILES['File']['name'];
+                      $fdFileSize = $_FILES['File']['size'];
+                      $fdDateTime = date('Y-M-D G:i:s');
+                      
+                      $sql = "INSERT INTO tbFiles ( fdFileType , fdFile, fdFileName, fdFileSize, fdDateTime, fdArchive) 
+                                          VALUES  (:fdFileType ,:fdFile,:fdFileName,:fdFileSize, now(),0)";
+                      $statement = $conn->prepare($sql);
+                      $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
+                      $statement->bindParam('fdFileType',$fdFileType,  PDO::PARAM_STR);
+                      $statement->bindParam('fdFileName',$fdFileName,  PDO::PARAM_STR);
+                      $statement->bindParam('fdFileSize',$fdFileSize,  PDO::PARAM_INT);
+                      
+                      $current_id = $statement->execute();
+                  }
+              }
+            }
 
-                    ?>
-                    <form action="index.php" method="post" enctype="multipart/form-data" >
-                    <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
-                    <input type="hidden" name="activity" value=" FILE-CREATE-PROCESS">
+            break;  
+
+
+            case "FILE-DELETE-PROCESS":
+                if($activity=="FILE-DELETE-PROCESS") {
+                        $sql = "DELETE FROM tbFiles WHERE id = ". formRequest("id");
+                        $statement = $conn->prepare($sql);
+                        $current_id = $statement->execute();
+                }
+
+
+
+                case "FILES": // File Listing
+
+                    ?><br>
+                    <form action="index.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="activity" value="FILE-CREATE-PROCESS">
                     <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                    <input type="file" name="file" placeholder="files" value=""><br>
-                    <input type="submit" value="Submit"> <br>
+                    <input type="file" name="File" placeholder="File" value="">
+                    <input type="submit" name="Submit" value="UPLOAD!"><br>
                     </form>
                     <?php
-
-
-
-                    $sql = "SELECT * FROM `tbFiles`";
+      
+                    $sql = "SELECT id,fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
+      
                     $order=formRequest("order");
                     if($order!=""){
                       $sql = $sql . "ORDER BY $order";
                     }
+                    
                     $stmt = $conn->prepare($sql);
                     $stmt->execute();
                     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -107,8 +127,9 @@ if(isset($_REQUEST["activity"])) {
                         if($firstRowPrinted == false) {
                           echo "<tr>";               // Start HEADER Row
                           echo "<th>##</th>";
-                          echo "<th>UPDATE</th>";
+                          //echo "<th>UPDATE</th>";
                           echo "<th>DELETE</th>";
+                          echo "<th>VIEW</th>";
                           foreach($row as $col_name => $val) {
                             if($order == "`$col_name`") {
                               echo "<th><a href=\"index.php?activity=FILES&order=`$col_name` DESC\">$col_name</a></th>";    
@@ -122,9 +143,9 @@ if(isset($_REQUEST["activity"])) {
                         echo "<tr>";               // Start Row
                         echo "<td>" . $i . "</td>";
                         $i=$i+1;
-                        echo "<td><a href=\"index.php?activity=FILE-UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
-              echo "<td><a href='index.php?activity=FILE-DELETE-PROCESS&id=".$row["id"]."&order=$order'>DELETE</a></td>";
-              
+                        //echo "<td><a href=\"index.php?activity=FILE-UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
+                        echo "<td><a href=\"index.php?activity=FILE-DELETE-PROCESS&id=".$row["id"]."&order=$order\">DELETE</a></td>";
+                        echo "<td><a href=\"view.php?id=".$row["id"]."\" target=\"_blank\">VIEW</a></td>";
                         foreach($row as $col_name => $val) {
                           echo "<td>$val</td>";    // Print Each Field VALUE
                         }
@@ -132,7 +153,8 @@ if(isset($_REQUEST["activity"])) {
                       }
                       echo "</table>";
                     }
-                
+      
+                    break;
                        
                       
 
