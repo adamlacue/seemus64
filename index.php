@@ -60,6 +60,20 @@ if(isset($_REQUEST["activity"])) {
 
 
                 case "FILES":
+
+                    ?>
+                    <form action="index.php">
+                    <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
+                    <input type="hidden" name="activity" value=" FILE-CREATE-PROCESS">
+                    <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
+                    <input type="text" name="FileName" placeholder="FilesNAme" value=""><br>
+                    <input type="file" name="file" placeholder="files" value=""><br>
+                    <input type="submit" value="UPDATE!"><br>
+                    </form>
+                    <?php
+
+
+
                     $sql = "SELECT * FROM `tbFiles`";
                     $order=formRequest("order");
                     if($order!=""){
@@ -82,7 +96,7 @@ if(isset($_REQUEST["activity"])) {
                           echo "<th>DELETE</th>";
                           foreach($row as $col_name => $val) {
                             if($order == "`$col_name`") {
-                              echo "<th><a href=\"index.php?order=`$col_name` DESC\">$col_name</a></th>";    
+                              echo "<th><a href=\"index.php?activity=FILES&order=`$col_name` DESC\">$col_name</a></th>";    
                             } else {
                               echo "<th><a href=\"index.php?order=`$col_name`\">$col_name</a></th>"; 
                             }
