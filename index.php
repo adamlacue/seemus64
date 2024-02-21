@@ -66,7 +66,7 @@ if(isset($_REQUEST["activity"])) {
                 if (count($_FILES) > 0) {
                   if (is_uploaded_file($_FILES['File']['tmp_name'])) {
                       $fdFile = file_get_contents($_FILES['File']['tmp_name']);
-                      $fdFileType = $_FILES['File']['type'];
+                      $fdFileTypes = $_FILES['File']['type'];
                       $fdFileName = $_FILES['File']['name'];
                       $fdFilesSize = $_FILES['File']['size'];
                       $fdDateTime = date('Y-M-D G:i:s');
@@ -75,7 +75,7 @@ if(isset($_REQUEST["activity"])) {
                                           VALUES  (:fdFilesType ,:fdFile,:fdFilename,:fdFilesSize, now(),0)";
                       $statement = $conn->prepare($sql);
                       $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
-                      $statement->bindParam('fdFilesType',$fdFileType,  PDO::PARAM_STR);
+                      $statement->bindParam('fdFilesType',$fdFilesTypes,  PDO::PARAM_STR);
                       $statement->bindParam('fdFilename',$fdFileName,  PDO::PARAM_STR);
                       $statement->bindParam('fdFilesSize',$fdFilesSize,  PDO::PARAM_INT);
                       
