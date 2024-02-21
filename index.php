@@ -68,7 +68,7 @@ if(isset($_REQUEST["activity"])) {
                       $fdFile = file_get_contents($_FILES['File']['tmp_name']);
                       $fdFileType = $_FILES['File']['type'];
                       $fdFileName = $_FILES['File']['name'];
-                      $fdFileSize = $_FILES['File']['size'];
+                      $fdFilesSize = $_FILES['File']['size'];
                       $fdDateTime = date('Y-M-D G:i:s');
                       
                       $sql = "INSERT INTO tbFiles ( fdFilesType , fdFile, fdFileName, fdFilesSize, fdDateTime, fdArchive) 
@@ -77,7 +77,7 @@ if(isset($_REQUEST["activity"])) {
                       $statement->bindParam('fdFile',    $fdFile,      PDO::PARAM_STR);
                       $statement->bindParam('fdFilesType',$fdFileType,  PDO::PARAM_STR);
                       $statement->bindParam('fdFileName',$fdFileName,  PDO::PARAM_STR);
-                      $statement->bindParam('fdFilesSize',$fdFileSize,  PDO::PARAM_INT);
+                      $statement->bindParam('fdFilesSize',$fdFilesSize,  PDO::PARAM_INT);
                       
                       $current_id = $statement->execute();
                   }
@@ -107,7 +107,7 @@ if(isset($_REQUEST["activity"])) {
                     </form>
                     <?php
       
-                    $sql = "SELECT id,fdFilename,fdFilesType,fdFilesSize,fdDateTime,fdArchive FROM `tbFiles`";
+                    $sql = "SELECT id,fdFilename,fdFilesType,file,fdDateTime,fdArchive FROM `tbFiles`";
       
                     $order=formRequest("order");
                     if($order!=""){
@@ -269,6 +269,6 @@ if(isset($_REQUEST["activity"])) {
 <?php
 include "include/bottom.inc.php";   
 
-echo "<BR><BR>[". $_SESSION["username"] . "] is current user<br>";
+
 
 ?>
