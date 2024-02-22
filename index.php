@@ -23,7 +23,7 @@ if(isset($_REQUEST["activity"])) {
     </head>
     <body>
 <?php 
-    if($_SESSION["Email"]) { 
+    if($_SESSION["username"]) { 
                 ?>
                 <a href="index.php?activity=CONTENT">CONTENT</a> | 
                 <a href="index.php?activity=FILES">FILES</a> | 
