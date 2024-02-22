@@ -27,6 +27,7 @@ if(isset($_REQUEST["activity"])) {
                 ?>
                 
                 <a href="index.php?activity=FILES">FILES</a>
+                <?php header("Refresh: 1"); ?>
                 <?php
             }
 
@@ -37,7 +38,7 @@ if(isset($_REQUEST["activity"])) {
           }
             ?>
       
-        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> |<a href="index.php?activity=CREATE">CREATE</a>
+         <a href="index.php?activity=LOGOUT">LOGOUT</a> |<a href="index.php?activity=CREATE">CREATE</a>
 
         <?php
         
