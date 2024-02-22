@@ -22,8 +22,16 @@ if(isset($_REQUEST["activity"])) {
         <title><?php echo $activity ?></title>
     </head>
     <body>
+<?php 
+    if($_SESSION["Email"]) { 
+                ?>
+                <a href="index.php?activity=CONTENT">CONTENT</a> | 
+                <a href="index.php?activity=FILES">FILES</a> | 
+                <?php
+            }
+            ?>
       
-        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files </a> |<a href="index.php?activity=CREATE">CREATE</a>
+        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> |<a href="index.php?activity=CREATE">CREATE</a>
 
         <?php
         
