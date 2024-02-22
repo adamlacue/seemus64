@@ -25,8 +25,10 @@ if(isset($_REQUEST["activity"])) {
 <?php 
     if($_SESSION["username"]) { 
                 ?>
-                <a href="index.php?activity=CONTENT">CONTENT</a> | 
-                <a href="index.php?activity=FILES">FILES</a> | 
+                
+                <a href="index.php?activity=FILES">FILES</a> 
+                <script>parent.window.location.reload(true);</script>
+
                 <?php
             }
             ?>
