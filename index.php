@@ -26,11 +26,15 @@ if(isset($_REQUEST["activity"])) {
     if($_SESSION["username"]) { 
                 ?>
                 
-                <a href="index.php?activity=FILES">FILES</a> 
-                <script>parent.window.location.reload(true);</script>
-
+                <a href="index.php?activity=FILES">FILES</a>
                 <?php
             }
+
+            if($_SESSION["Email"]!="") {
+              ?><a href="index.php?activity=LOGOUT" title="Logoff User: <?php echo $_SESSION["username"]; ?>">LOGOFF</a><?php
+          } else {
+              ?><a href="index.php?activity=USER">LOGON</a><?php
+          }
             ?>
       
         <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> |<a href="index.php?activity=CREATE">CREATE</a>
