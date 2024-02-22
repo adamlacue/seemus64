@@ -186,87 +186,153 @@ if(isset($_REQUEST["activity"])) {
             
 
             
-            case "UPDATE-FORM":
-                    // U of crUd
-                    //Show forms for update!
-                    //echo $activity . " in UPDATE-FORM section";
-              
-                    $stmt = $conn->prepare("SELECT * FROM `tbPeople_Bob` WHERE id = ". formRequest("id"));
-                    $stmt->execute();
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-              
-                    // Check if $result has anything in it or not (Returns a FALSE if no data in there).
-                    if($result) {
-                      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                      ?>
-                      <form action="index.php">
-                      <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
-                      <input type="hidden" name="activity" value="UPDATE-PROCESS">
-                      <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                      <input type="text" name="FirstName" placeholder="FirstName" value="<?php echo $row["First Name"]; ?>"><br>
-                      <input type="text" name="LastName" placeholder="LastName" value="<?php echo $row["Last Name"]; ?>"><br>
-                      <input type="text" name="Email" placeholder="Email" value="<?php echo $row["Email"]; ?>"><br>
-                      <input type="text" name="Phone" placeholder="Phone" value="<?php echo $row["Phone"]; ?>"><br>
-                      <input type="submit" value="UPDATE!"><br>
-                      </form>
-                      <?php
-                      }
-                    }
-                
-            break;
-
-            case "CREATE-PROCESS":
-                //echo $activity . " in INSERT Processing section";
-          
-                $FirstName = formRequest("FirstName");
-                $LastName = formRequest("LastName");
-                $Email = formRequest("Email");
-                $Phone = formRequest("Phone");
-          
-                if($activity=="CREATE-PROCESS") {
-                  $sql = "INSERT INTO `tbPeople_Bob` (`First Name`, `Last Name`, `Email`, `Phone`) VALUES ('" . $FirstName . "','" . $LastName . "','" . $Email . "','" . $Phone . "')";
-                  $conn->exec($sql);
-                  echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
-                }
-                //echo "<BR>".$sql."<BR>";
-                
-            break;
-            
             case "CREATE":
-                    // C of Crud
-                    //Insert (SQL Language) Data!
-                    //echo $activity . " in INSERT section";
-                    ?>
-                    <form action="index.php">
-                      <input type="hidden" name="activity" value="CREATE-PROCESS">
-                      <input type="text" name="FirstName" placeholder="FirstName"><br>
-                      <input type="text" name="LastName" placeholder="LastName"><br>
-                      <input type="text" name="Email" placeholder="Email"><br>
-                      <input type="text" name="Phone" placeholder="Phone"><br>
-                      <input type="submit" value="GO!"><br>
-                    </form>
-                    <?php
-                
-                
+              // C of Crud
+              //Insert (SQL Language) Data!
+              //echo $activity . " in INSERT section";
+              ?>
+              <form action="index.php">
+                <input type="hidden" name="activity" value="CREATE-PROCESS">
+                <input type="text" name="FirstName" placeholder="FirstName"><br>
+                <input type="text" name="LastName" placeholder="LastName"><br>
+                <input type="text" name="Email" placeholder="Email"><br>
+                <input type="text" name="Phone" placeholder="Phone"><br>
+                <input type="submit" value="GO!"><br>
+              </form>
+              <?php
+              // Going to add forms to INSERT/CREATE new data in the DB
+              // Have those forms submit with content to add to the DB
+        
             break;
+        
+            case "UPDATE-FORM":
+              // U of crUd
+              //Show forms for update!
+              //echo $activity . " in UPDATE-FORM section";
+        
+              $stmt = $conn->prepare("SELECT * FROM `tbPeople_Bob` WHERE id = ". formRequest("id"));
+              $stmt->execute();
+              $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        
+              // Check if $result has anything in it or not (Returns a FALSE if no data in there).
+              if($result) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                ?>
+                <form action="index.php">
+                <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
+                <input type="hidden" name="activity" value="UPDATE-PROCESS">
+                <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
+                <input type="text" name="FirstName" placeholder="FirstName" value="<?php echo $row["First Name"]; ?>"><br>
+                <input type="text" name="LastName" placeholder="LastName" value="<?php echo $row["Last Name"]; ?>"><br>
+                <input type="text" name="Email" placeholder="Email" value="<?php echo $row["Email"]; ?>"><br>
+                <input type="text" name="Phone" placeholder="Phone" value="<?php echo $row["Phone"]; ?>"><br>
+                <input type="submit" value="UPDATE!"><br>
+                </form>
+                <?php
+                }
+              }
+              break;
+        
+        
+            case "CREATE-PROCESS":
+              //echo $activity . " in INSERT Processing section";
+        
+              $FirstName = formRequest("FirstName");
+              $LastName = formRequest("LastName");
+              $Email = formRequest("Email");
+              $Phone = formRequest("Phone");
+        
+              if($activity=="CREATE-PROCESS") {
+                $sql = "INSERT INTO `tbPeople_Bob` (`First Name`, `Last Name`, `Email`, `Phone`) VALUES ('" . $FirstName . "','" . $LastName . "','" . $Email . "','" . $Phone . "')";
+                $conn->exec($sql);
+                echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
+              }
+              //echo "<BR>".$sql."<BR>";
+              //break; //no break needed so we show the records again  
             
+            case "UPDATE-PROCESS":
+              // U of crUd
+              //Update actual Data!
+              //echo $activity . " in UPDATE-PROCESS section";
+          
+              $FirstName = formRequest("FirstName");
+              $LastName = formRequest("LastName");
+              $Email = formRequest("Email");
+              $Phone = formRequest("Phone");
+          
+            if($activity=="UPDATE-PROCESS") {
+              $sql = "UPDATE `tbPeople_Bob` 
+                      SET `First Name`='" . $FirstName . "',
+                          `Last Name`='" . $LastName . "', 
+                          `Email`='" . $Email . "', 
+                          `Phone`='" . $Phone . "'
+                      WHERE id = " . formRequest("id");
+              $conn->exec($sql);
+              echo "UPDATED: " . formRequest("id") . "<BR>";
+        
+            }    
+            //  echo "<BR>".$sql."<BR>";
+              //break; // no Break to show the list again below!
+        
+            case "DELETE-PROCESS":
+              //D of cruD
+              //PROCESS for the Deleting of Data!
+              //echo $activity . " in DELETE PROCESS section";
+        
+            if($activity=="DELETE-PROCESS") {
+              $sql = "DELETE FROM `tbPeople_Bob` WHERE `id` = " .formRequest("id");
+              $conn->exec($sql);
+              echo "DELETED: " . formRequest("id") . "<BR><BR>";
+            }
 
-        case "DELETE-PROCESS":
-            //D of cruD
-            //PROCESS for the Deleting of Data!
-            //echo $activity . " in DELETE PROCESS section";
-      
-          if($activity=="DELETE-PROCESS") {
-            $sql = "DELETE FROM `tbPeople_Bob` WHERE `id` = " .formRequest("id");
-            $conn->exec($sql);
-            echo "DELETED: " . formRequest("id") . "<BR><BR>";
-          }
 
+     default://RUN DEFAULT or READ always if blank or READ
+     $sql = "SELECT * FROM `tbPeople_Bob`";
+     $order=formRequest("order");
+     if($order!=""){
+       $sql = $sql . "ORDER BY $order";
+     }
+     $stmt = $conn->prepare($sql);
+     $stmt->execute();
+     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-     default:
-                //RUN DEFAULT or READ always if blank or READ
+     // Check if $result has anything in it or not (Returns a FALSE if no data in there).
+     if($result) {
+       echo "<table border=1>";   // Start Table
+       $firstRowPrinted = false;
+       $i=1;
+       while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+         if($firstRowPrinted == false) {
+           echo "<tr>";               // Start HEADER Row
+           echo "<th>##</th>";
+           echo "<th>UPDATE</th>";
+           echo "<th>DELETE</th>";
+           foreach($row as $col_name => $val) {
+             if($order == "`$col_name`") {
+               echo "<th><a href=\"index.php?order=`$col_name` DESC\">$col_name</a></th>";    
+             } else {
+               echo "<th><a href=\"index.php?order=`$col_name`\">$col_name</a></th>"; 
+             }
+           }
+           echo "</tr>";               // END Header Row
+           $firstRowPrinted = true;
+         }
+         echo "<tr>";               // Start Row
+         echo "<td>" . $i . "</td>";
+         $i=$i+1;
+         echo "<td><a href=\"index.php?activity=UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
+echo "<td><a href='index.php?activity=DELETE-PROCESS&id=".$row["id"]."&order=$order'>DELETE</a></td>";
+
+         foreach($row as $col_name => $val) {
+           echo "<td>$val</td>";    // Print Each Field VALUE
+         }
+         echo "</tr>";               // Start Row
+       }
+       echo "</table>";
+     }
+ }
      
-        }
+    
         ?>
     </body>
 </html>
