@@ -42,7 +42,7 @@ if(isset($_REQUEST["activity"])) {
                     ?>
                     <form action="index.php" method="post">
                         <input type="hidden" name="activity" value="USER" />
-                        <input type="text" name="username" placeholder="Username / Email" />
+                        <input type="text" name="username" placeholder="Username / email" />
                         <input type="password" name="password" placeholder="Password" />
                         <input type="submit" value="Logon" />
                     </form>
@@ -193,10 +193,10 @@ if(isset($_REQUEST["activity"])) {
               ?>
               <form action="index.php">
                 <input type="hidden" name="activity" value="CREATE-PROCESS">
-                <input type="text" name="FirstName" placeholder="FirstName"><br>
-                <input type="text" name="LastName" placeholder="LastName"><br>
-                <input type="text" name="Email" placeholder="Email"><br>
-                <input type="text" name="Phone" placeholder="Phone"><br>
+                <input type="text" name="firstname" placeholder="firstname"><br>
+                <input type="text" name="lastname" placeholder="lastname"><br>
+                <input type="text" name="email" placeholder="email"><br>
+                <input type="text" name="phone" placeholder="phone"><br>
                 <input type="submit" value="GO!"><br>
               </form>
               <?php
@@ -210,7 +210,7 @@ if(isset($_REQUEST["activity"])) {
               //Show forms for update!
               //echo $activity . " in UPDATE-FORM section";
         
-              $stmt = $conn->prepare("SELECT * FROM `tbPeople_Bob` WHERE id = ". formRequest("id"));
+              $stmt = $conn->prepare("SELECT * FROM `tbUser` WHERE id = ". formRequest("id"));
               $stmt->execute();
               $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         
@@ -222,10 +222,10 @@ if(isset($_REQUEST["activity"])) {
                 <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
                 <input type="hidden" name="activity" value="UPDATE-PROCESS">
                 <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                <input type="text" name="FirstName" placeholder="FirstName" value="<?php echo $row["First Name"]; ?>"><br>
-                <input type="text" name="LastName" placeholder="LastName" value="<?php echo $row["Last Name"]; ?>"><br>
-                <input type="text" name="Email" placeholder="Email" value="<?php echo $row["Email"]; ?>"><br>
-                <input type="text" name="Phone" placeholder="Phone" value="<?php echo $row["Phone"]; ?>"><br>
+                <input type="text" name="firstname" placeholder="firstname" value="<?php echo $row["firstname"]; ?>"><br>
+                <input type="text" name="lastname" placeholder="lastname" value="<?php echo $row["lastname"]; ?>"><br>
+                <input type="text" name="email" placeholder="email" value="<?php echo $row["email"]; ?>"><br>
+                <input type="text" name="username" placeholder="username" value="<?php echo $row["username"]; ?>"><br>
                 <input type="submit" value="UPDATE!"><br>
                 </form>
                 <?php
@@ -237,13 +237,13 @@ if(isset($_REQUEST["activity"])) {
             case "CREATE-PROCESS":
               //echo $activity . " in INSERT Processing section";
         
-              $FirstName = formRequest("FirstName");
-              $LastName = formRequest("LastName");
-              $Email = formRequest("Email");
-              $Phone = formRequest("Phone");
+              $firstname = formRequest("firstname");
+              $lastname = formRequest("lastname");
+              $email = formRequest("email");
+              $phone = formRequest("phone");
         
               if($activity=="CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbPeople_Bob` (`First Name`, `Last Name`, `Email`, `Phone`) VALUES ('" . $FirstName . "','" . $LastName . "','" . $Email . "','" . $Phone . "')";
+                $sql = "INSERT INTO `tbUsers` (`firstname`, `lastname`, `email`, `username`) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $phone . "')";
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
@@ -255,17 +255,17 @@ if(isset($_REQUEST["activity"])) {
               //Update actual Data!
               //echo $activity . " in UPDATE-PROCESS section";
           
-              $FirstName = formRequest("FirstName");
-              $LastName = formRequest("LastName");
-              $Email = formRequest("Email");
-              $Phone = formRequest("Phone");
+              $firstname = formRequest("firstname");
+              $lastname = formRequest("lastname");
+              $email = formRequest("email");
+              $phone = formRequest("phone");
           
             if($activity=="UPDATE-PROCESS") {
-              $sql = "UPDATE `tbPeople_Bob` 
-                      SET `First Name`='" . $FirstName . "',
-                          `Last Name`='" . $LastName . "', 
-                          `Email`='" . $Email . "', 
-                          `Phone`='" . $Phone . "'
+              $sql = "UPDATE `tbUsers` 
+                      SET `firstname`='" . $firstname . "',
+                          `lastname`='" . $lastname . "', 
+                          `email`='" . $email . "', 
+                          `phone`='" . $phone . "'
                       WHERE id = " . formRequest("id");
               $conn->exec($sql);
               echo "UPDATED: " . formRequest("id") . "<BR>";
@@ -280,14 +280,14 @@ if(isset($_REQUEST["activity"])) {
               //echo $activity . " in DELETE PROCESS section";
         
             if($activity=="DELETE-PROCESS") {
-              $sql = "DELETE FROM `tbPeople_Bob` WHERE `id` = " .formRequest("id");
+              $sql = "DELETE FROM `tbUsers` WHERE `id` = " .formRequest("id");
               $conn->exec($sql);
               echo "DELETED: " . formRequest("id") . "<BR><BR>";
             }
 
 
      default://RUN DEFAULT or READ always if blank or READ
-     $sql = "SELECT * FROM `tbPeople_Bob`";
+     $sql = "SELECT * FROM `tbUsers`";
      $order=formRequest("order");
      if($order!=""){
        $sql = $sql . "ORDER BY $order";
