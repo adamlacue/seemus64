@@ -81,7 +81,7 @@ if(isset($_REQUEST["activity"])) {
                         echo "<br>Invalid username";
                     }
                 }
-                header("Refresh: 1"); 
+                
             break;
 
 
