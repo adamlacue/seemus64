@@ -23,7 +23,7 @@ if(isset($_REQUEST["activity"])) {
     </head>
     <body>
       
-        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files</a>
+        <a href="index.php?activity=USER">LOGON</a> | <a href="index.php?activity=LOGOUT">LOGOUT</a> | <a href="index.php?activity=FILES">Files </a> |<a href="index.php?activity=CREATE">CREATE</a>
 
         <?php
         
