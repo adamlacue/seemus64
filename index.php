@@ -27,7 +27,7 @@ if(isset($_REQUEST["activity"])) {
                 ?>
                 
                 <a href="index.php?activity=FILES">FILES</a>
-                <?php header("Refresh: 1"); ?>
+                
                 <?php
             }
 
@@ -81,6 +81,7 @@ if(isset($_REQUEST["activity"])) {
                         echo "<br>Invalid username";
                     }
                 }
+                header("Refresh: 1"); 
             break;
 
 
