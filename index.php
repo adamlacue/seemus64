@@ -200,13 +200,13 @@ if(isset($_REQUEST["activity"])) {
             
 
             
-            case "CREATE":
+            case "CONTENT-CREATE":
               // C of Crud
               //Insert (SQL Language) Data!
               //echo $activity . " in INSERT section";
               ?>
               <form action="index.php">
-                <input type="hidden" name="activity" value="CREATE-PROCESS">
+                <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
                 <input type="text" name="firstname" placeholder="firstname"><br>
                 <input type="text" name="lastname" placeholder="lastname"><br>
                 <input type="text" name="email" placeholder="email"><br>
@@ -219,7 +219,7 @@ if(isset($_REQUEST["activity"])) {
         
             break;
         
-            case "UPDATE-FORM":
+            case "CONTENT-UPDATE-FORM":
               // U of crUd
               //Show forms for update!
               //echo $activity . " in UPDATE-FORM section";
@@ -234,7 +234,7 @@ if(isset($_REQUEST["activity"])) {
                 ?>
                 <form action="index.php">
                 <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
-                <input type="hidden" name="activity" value="UPDATE-PROCESS">
+                <input type="hidden" name="activity" value="CONTENT-UPDATE-PROCESS">
                 <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
                 <input type="text" name="firstname" placeholder="firstname" value="<?php echo $row["firstname"]; ?>"><br>
                 <input type="text" name="lastname" placeholder="lastname" value="<?php echo $row["lastname"]; ?>"><br>
@@ -248,7 +248,7 @@ if(isset($_REQUEST["activity"])) {
               break;
         
         
-            case "CREATE-PROCESS":
+            case "CONTENT-CREATE-PROCESS":
               //echo $activity . " in INSERT Processing section";
         
               $firstname = formRequest("firstname");
@@ -264,7 +264,7 @@ if(isset($_REQUEST["activity"])) {
               //echo "<BR>".$sql."<BR>";
               //break; //no break needed so we show the records again  
             
-            case "UPDATE-PROCESS":
+            case "CONTENT-UPDATE-PROCESS":
               // U of crUd
               //Update actual Data!
               //echo $activity . " in UPDATE-PROCESS section";
@@ -274,7 +274,7 @@ if(isset($_REQUEST["activity"])) {
               $email = formRequest("email");
               $phone = formRequest("phone");
           
-            if($activity=="UPDATE-PROCESS") {
+            if($activity=="CONTENT-UPDATE-PROCESS") {
               $sql = "UPDATE `tbUsers` 
                       SET `firstname`='" . $firstname . "',
                           `lastname`='" . $lastname . "', 
@@ -288,18 +288,67 @@ if(isset($_REQUEST["activity"])) {
             //  echo "<BR>".$sql."<BR>";
               //break; // no Break to show the list again below!
         
-            case "DELETE-PROCESS":
+            case "CONTENT-DELETE-PROCESS":
               //D of cruD
               //PROCESS for the Deleting of Data!
               //echo $activity . " in DELETE PROCESS section";
         
-            if($activity=="DELETE-PROCESS") {
+            if($activity=="CONTENT-DELETE-PROCESS") {
               $sql = "DELETE FROM `tbUsers` WHERE `id` = " .formRequest("id");
               $conn->exec($sql);
               echo "DELETED: " . formRequest("id") . "<BR><BR>";
             }
 
+            case "CONTENT": // File Listing
 
+              $sql = "SELECT id,fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
+
+              $order=formRequest("order");
+              if($order!=""){
+                $sql = $sql . "ORDER BY $order";
+              }
+              
+              $stmt = $conn->prepare($sql);
+              $stmt->execute();
+              $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        
+              // Check if $result has anything in it or not (Returns a FALSE if no data in there).
+              if($result) {
+                echo "<table border=1>";   // Start Table
+                $firstRowPrinted = false;
+                $i=1;
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                  if($firstRowPrinted == false) {
+                    echo "<tr>";               // Start HEADER Row
+                    echo "<th>##</th>";
+                    echo "<th>UPDATE</th>";
+                    echo "<th>DELETE</th>";
+                    echo "<th>VIEW</th>";
+                    foreach($row as $col_name => $val) {
+                      if($order == "`$col_name`") {
+                        echo "<th><a href=\"index.php?activity=CONTENT&order=`$col_name` DESC\">$col_name</a></th>";    
+                      } else {
+                        echo "<th><a href=\"index.php?activity=CONTENT&order=`$col_name`\">$col_name</a></th>"; 
+                      }
+                    }
+                    echo "</tr>";               // END Header Row
+                    $firstRowPrinted = true;
+                  }
+                  echo "<tr>";               // Start Row
+                  echo "<td>" . $i . "</td>";
+                  $i=$i+1;
+                  echo "<td><a href=\"index.php?activity=CONTENT-UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
+                  echo "<td><a href=\"index.php?activity=CONTENT-DELETE-PROCESS&id=".$row["id"]."&order=$order\">DELETE</a></td>";
+                  echo "<td><a href=\"view.php?id=".$row["id"]."\" target=\"_blank\">VIEW</a></td>";
+                  foreach($row as $col_name => $val) {
+                    echo "<td>$val</td>";    // Print Each Field VALUE
+                  }
+                  echo "</tr>";               // Start Row
+                }
+                echo "</table>";
+              }
+
+              break;
 
 
 
