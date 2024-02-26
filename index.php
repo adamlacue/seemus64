@@ -109,16 +109,12 @@ if(isset($_REQUEST["activity"])) {
             }
           }
 
-          break;
-
           case "FILE-DELETE-PROCESS":
             if($activity=="FILE-DELETE-PROCESS") {
                     $sql = "DELETE FROM tbFiles WHERE id = ". formRequest("id");
                     $statement = $conn->prepare($sql);
                     $current_id = $statement->execute();
             }
-
-            break;
 
           case "FILES": // File Listing
 
