@@ -319,7 +319,7 @@ if(isset($_REQUEST["activity"])) {
                 <input type="text" name="fdEmail" placeholder="fdEmail"><br>
                 <input type="text" name="fdFullName" placeholder="fdFullName"><br>
                 <input type="text" name="fdNickName" placeholder="fdNickName"><br>
-                <input type="text" name="fdAdmin" placeholder="fdAdmin"><br>
+                <input type="text" name="fdArchive" placeholder="fdArchive"><br>
                 <input type="text" name="fdPassword" placeholder="fdPassword"><br>
                 <input type="submit" value="GO!"><br>
               </form>
@@ -364,12 +364,12 @@ if(isset($_REQUEST["activity"])) {
               $fdEmail = formRequest("fdEmail");
               $fdFullName = formRequest("fdFullName");
               $fdNickName = formRequest("fdNickName");
-              $fdAdmin = formRequest("fdAdmin");
+              $fdArchive = formRequest("fdArchive");
               $fdPassword = password_hash(formRequest("fdPassword"),null);
 
               if($activity=="USER-CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdAdmin`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
-                                       VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdAdmin . "','" . $fdPassword . "',  now(),          now(),          now())";
+                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdArchive`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
+                                       VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdArchive . "','" . $fdPassword . "',  now(),          now(),          now())";
                 echo $sql;
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
