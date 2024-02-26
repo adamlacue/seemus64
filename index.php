@@ -65,17 +65,11 @@ if(isset($_REQUEST["activity"])) {
                     $fdEmail = $_REQUEST["fdEmail"];
                     $fdPassword = $_REQUEST["fdPassword"];
                     // Check credentials against database
-                    echo "sql";
                     $stmt = $conn->prepare("SELECT * FROM tbUsers WHERE fdEmail = :fdEmail");
-                    echo "sql2";
                     $stmt->bindParam(':fdEmail', $fdEmail);
-                    echo "sql3";
                     $stmt->execute();
-                    echo "sql4";
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                    echo "sql5";
                     if ($user) {
-                      echo "sql6";
                         if (password_verify($fdPassword, $user['fdPassword'])) {
                             echo "<br>" . $fdEmail . " is logged on!";
                             $_SESSION["fdEmail"] = $fdEmail;
