@@ -366,10 +366,10 @@ if(isset($_REQUEST["activity"])) {
               $fdNickName = formRequest("fdNickName");
               $fdAdmin = formRequest("fdAdmin");
               $fdPassword = password_hash(formRequest("fdPassword"),null);
-        echo $fdPassword;
-        break;
+
               if($activity=="USER-CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbUsers` (`firstname`, `lastname`, `email`, `username`) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $phone . "')";
+                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdAdmin`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
+                                       VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdAdmin . "','" . $fdPassword . "',  now(),          now(),          now())";
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
