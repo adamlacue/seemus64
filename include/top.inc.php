@@ -18,9 +18,9 @@ function formRequest($formName) {
 }
 
 $servername = "twyxt.io";
-$username = "ben";
-$password = "Iamlike12";
-$dbname = "seemus_ben";
+$username = "shuser";
+$password = "shRocks!";
+$dbname = "seemus_adam";
 
 
 
