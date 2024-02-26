@@ -54,9 +54,9 @@ if(isset($_REQUEST["activity"])) {
                 // User Login
                 if(!isset($_REQUEST["fdEmail"])) {
                     ?>
-                    <form action="index.php" method="post">
+                    <form action="index.php" method="get">
                         <input type="hidden" name="activity" value="USER" />
-                        <input type="text" name="fdEmail" placeholder="Username / email" />
+                        <input type="text" name="fdEmail" placeholder="email" />
                         <input type="password" name="fdPassword" placeholder="Password" />
                         <input type="submit" value="Logon" />
                     </form>
@@ -65,11 +65,17 @@ if(isset($_REQUEST["activity"])) {
                     $fdEmail = $_REQUEST["fdEmail"];
                     $fdPassword = $_REQUEST["fdPassword"];
                     // Check credentials against database
+                    echo "sql";
                     $stmt = $conn->prepare("SELECT * FROM tbUsers WHERE fdEmail = :fdEmail");
+                    echo "sql2";
                     $stmt->bindParam(':fdEmail', $fdEmail);
+                    echo "sql3";
                     $stmt->execute();
+                    echo "sql4";
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                    echo "sql5";
                     if ($user) {
+                      echo "sql6";
                         if (password_verify($fdPassword, $user['fdPassword'])) {
                             echo "<br>" . $fdEmail . " is logged on!";
                             $_SESSION["fdEmail"] = $fdEmail;
