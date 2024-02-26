@@ -23,7 +23,7 @@ if(isset($_REQUEST["activity"])) {
     </head>
     <body>
 <?php 
-    if($_SESSION["username"]) { 
+    if($_SESSION["fdEmail"]) { 
                 ?>
                 
                 <a href="index.php?activity=FILES">FILES</a>
@@ -31,8 +31,8 @@ if(isset($_REQUEST["activity"])) {
                 <?php
             }
 
-            if($_SESSION["Email"]!="") {
-              ?><a href="index.php?activity=LOGOUT" title="Logoff User: <?php echo $_SESSION["username"]; ?>">LOGOFF</a><?php
+            if($_SESSION["fdEmail"]!="") {
+              ?><a href="index.php?activity=LOGOUT" title="Logoff User: <?php echo $_SESSION["fdEmail"]; ?>">LOGOFF</a><?php
           } else {
               ?><a href="index.php?activity=USER">LOGON</a><?php
           }
@@ -52,27 +52,27 @@ if(isset($_REQUEST["activity"])) {
         switch($activity) {
             case "USER":
                 // User Login
-                if(!isset($_REQUEST["username"])) {
+                if(!isset($_REQUEST["fdEmail"])) {
                     ?>
                     <form action="index.php" method="post">
                         <input type="hidden" name="activity" value="USER" />
-                        <input type="text" name="username" placeholder="Username / email" />
-                        <input type="password" name="password" placeholder="Password" />
+                        <input type="text" name="fdEmail" placeholder="Username / email" />
+                        <input type="password" name="fdPassword" placeholder="Password" />
                         <input type="submit" value="Logon" />
                     </form>
                     <?php
                 } else {
-                    $username = $_REQUEST["username"];
-                    $password = $_REQUEST["password"];
+                    $fdEmail = $_REQUEST["fdEmail"];
+                    $fdPassword = $_REQUEST["fdPassword"];
                     // Check credentials against database
-                    $stmt = $conn->prepare("SELECT * FROM tbUsers WHERE username = :username");
-                    $stmt->bindParam(':username', $username);
+                    $stmt = $conn->prepare("SELECT * FROM tbUsers WHERE fdEmail = :fdEmail");
+                    $stmt->bindParam(':fdEmail', $fdEmail);
                     $stmt->execute();
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     if ($user) {
-                        if (password_verify($password, $user['password'])) {
-                            echo "<br>" . $username . " is logged on!";
-                            $_SESSION["username"] = $username;
+                        if (password_verify($fdPassword, $user['fdPassword'])) {
+                            echo "<br>" . $fdEmail . " is logged on!";
+                            $_SESSION["fdEmail"] = $fdEmail;
                         } else {
                             echo "<br>Invalid password";
                         }
@@ -362,15 +362,14 @@ if(isset($_REQUEST["activity"])) {
               //echo $activity . " in INSERT Processing section";
         
               $fdEmail = formRequest("fdEmail");
-              $fdUsername = formRequest("fdUsername");
               $fdFullName = formRequest("fdFullName");
               $fdNickName = formRequest("fdNickName");
               $fdArchive = formRequest("fdArchive");
               $fdPassword = password_hash(formRequest("fdPassword"),null);
 
               if($activity=="USER-CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdUsername`,         `fdFullName`,         `fdNickName`,         `fdArchive`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
-                                       VALUES ('" . $fdEmail . "','" . $fdUsername . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdArchive . "','" . $fdPassword . "',  now(),          now(),          now())";
+                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdArchive`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
+                                       VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdArchive . "','" . $fdPassword . "',  now(),          now(),          now())";
 
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
