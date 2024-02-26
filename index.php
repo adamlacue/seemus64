@@ -370,7 +370,7 @@ if(isset($_REQUEST["activity"])) {
               if($activity=="USER-CREATE-PROCESS") {
                 $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdArchive`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
                                        VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdArchive . "','" . $fdPassword . "',  now(),          now(),          now())";
-                echo $sql;
+
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
@@ -459,7 +459,7 @@ if(isset($_REQUEST["activity"])) {
          echo "<td>" . $i . "</td>";
          $i=$i+1;
          echo "<td><a href=\"index.php?activity=UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
-echo "<td><a href='index.php?activity=DELETE-PROCESS&id=".$row["id"]."&order=$order'>DELETE</a></td>";
+echo "<td><a href='index.php?activity=USER-DELETE-PROCESS&id=".$row["id"]."&order=$order'>DELETE</a></td>";
 
          foreach($row as $col_name => $val) {
            echo "<td>$val</td>";    // Print Each Field VALUE
