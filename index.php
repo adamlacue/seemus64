@@ -361,11 +361,13 @@ if(isset($_REQUEST["activity"])) {
             case "USER-CREATE-PROCESS":
               //echo $activity . " in INSERT Processing section";
         
-              $firstname = formRequest("firstname");
-              $lastname = formRequest("lastname");
-              $email = formRequest("email");
-              $phone = formRequest("phone");
-        
+              $fdEmail = formRequest("fdEmail");
+              $fdFullName = formRequest("fdFullName");
+              $fdNickName = formRequest("fdNickName");
+              $fdAdmin = formRequest("fdAdmin");
+              $fdPassword = password_hash(formRequest("fdPassword"),null);
+        echo $fdPassword;
+        break;
               if($activity=="USER-CREATE-PROCESS") {
                 $sql = "INSERT INTO `tbUsers` (`firstname`, `lastname`, `email`, `username`) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $phone . "')";
                 $conn->exec($sql);
