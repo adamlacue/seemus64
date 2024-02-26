@@ -370,6 +370,7 @@ if(isset($_REQUEST["activity"])) {
               if($activity=="USER-CREATE-PROCESS") {
                 $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdAdmin`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
                                        VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdAdmin . "','" . $fdPassword . "',  now(),          now(),          now())";
+                echo $sql;
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
