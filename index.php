@@ -362,14 +362,15 @@ if(isset($_REQUEST["activity"])) {
               //echo $activity . " in INSERT Processing section";
         
               $fdEmail = formRequest("fdEmail");
+              $fdUsername = formRequest("fdUsername");
               $fdFullName = formRequest("fdFullName");
               $fdNickName = formRequest("fdNickName");
               $fdArchive = formRequest("fdArchive");
               $fdPassword = password_hash(formRequest("fdPassword"),null);
 
               if($activity=="USER-CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdFullName`,         `fdNickName`,         `fdArchive`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
-                                       VALUES ('" . $fdEmail . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdArchive . "','" . $fdPassword . "',  now(),          now(),          now())";
+                $sql = "INSERT INTO `tbUsers` (     `fdEmail`,         `fdUsername`,         `fdFullName`,         `fdNickName`,         `fdArchive`,         `fdPassword`,     `fdCreated`,     `fdUpdated`,   `fdLastPassChanged`) 
+                                       VALUES ('" . $fdEmail . "','" . $fdUsername . "','" . $fdFullName . "','" . $fdNickName . "','" . $fdArchive . "','" . $fdPassword . "',  now(),          now(),          now())";
 
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
