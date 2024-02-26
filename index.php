@@ -37,8 +37,7 @@ if(isset($_REQUEST["activity"])) {
               ?><a href="index.php?activity=USER">LOGON</a><?php
           }
             ?>
-      
-         <a href="index.php?activity=LOGOUT">LOGOUT</a> |<a href="index.php?activity=CREATE">CREATE</a>
+      |<a href="index.php?activity=USER-CREATE">USER-CREATE</a>
 
         <?php
         
@@ -300,6 +299,126 @@ if(isset($_REQUEST["activity"])) {
               $conn->exec($sql);
               echo "DELETED: " . formRequest("id") . "<BR><BR>";
             }
+
+
+
+
+
+
+
+
+
+
+            case "USER-CREATE":
+              // C of Crud
+              //Insert (SQL Language) Data!
+              //echo $activity . " in INSERT section";
+              ?>
+              <form action="index.php">
+                <input type="hidden" name="activity" value="USER-CREATE-PROCESS">
+                <input type="text" name="fdEmail" placeholder="fdEmail"><br>
+                <input type="text" name="fdFullName" placeholder="fdFullName"><br>
+                <input type="text" name="fdNickName" placeholder="fdNickName"><br>
+                <input type="text" name="fdAdmin" placeholder="fdAdmin"><br>
+                <input type="text" name="fdPassword" placeholder="fdPassword"><br>
+                <input type="submit" value="GO!"><br>
+              </form>
+              <?php
+              // Going to add forms to INSERT/CREATE new data in the DB
+              // Have those forms submit with content to add to the DB
+        
+            break;
+        
+            case "USER-UPDATE-FORM":
+              // U of crUd
+              //Show forms for update!
+              //echo $activity . " in UPDATE-FORM section";
+        
+              $stmt = $conn->prepare("SELECT * FROM `tbUser` WHERE id = ". formRequest("id"));
+              $stmt->execute();
+              $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        
+              // Check if $result has anything in it or not (Returns a FALSE if no data in there).
+              if($result) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                ?>
+                <form action="index.php">
+                <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
+                <input type="hidden" name="activity" value="UPDATE-PROCESS">
+                <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
+                <input type="text" name="firstname" placeholder="firstname" value="<?php echo $row["firstname"]; ?>"><br>
+                <input type="text" name="lastname" placeholder="lastname" value="<?php echo $row["lastname"]; ?>"><br>
+                <input type="text" name="email" placeholder="email" value="<?php echo $row["email"]; ?>"><br>
+                <input type="text" name="username" placeholder="username" value="<?php echo $row["username"]; ?>"><br>
+                <input type="submit" value="UPDATE!"><br>
+                </form>
+                <?php
+                }
+              }
+              break;
+        
+        
+            case "USER-CREATE-PROCESS":
+              //echo $activity . " in INSERT Processing section";
+        
+              $firstname = formRequest("firstname");
+              $lastname = formRequest("lastname");
+              $email = formRequest("email");
+              $phone = formRequest("phone");
+        
+              if($activity=="USER-CREATE-PROCESS") {
+                $sql = "INSERT INTO `tbUsers` (`firstname`, `lastname`, `email`, `username`) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $phone . "')";
+                $conn->exec($sql);
+                echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
+              }
+              //echo "<BR>".$sql."<BR>";
+              //break; //no break needed so we show the records again  
+            
+            case "USER-UPDATE-PROCESS":
+              // U of crUd
+              //Update actual Data!
+              //echo $activity . " in UPDATE-PROCESS section";
+          
+              $firstname = formRequest("firstname");
+              $lastname = formRequest("lastname");
+              $email = formRequest("email");
+              $phone = formRequest("phone");
+          
+            if($activity=="USER-UPDATE-PROCESS") {
+              $sql = "UPDATE `tbUsers` 
+                      SET `firstname`='" . $firstname . "',
+                          `lastname`='" . $lastname . "', 
+                          `email`='" . $email . "', 
+                          `phone`='" . $phone . "'
+                      WHERE id = " . formRequest("id");
+              $conn->exec($sql);
+              echo "UPDATED: " . formRequest("id") . "<BR>";
+        
+            }    
+            //  echo "<BR>".$sql."<BR>";
+              //break; // no Break to show the list again below!
+        
+            case "USER-DELETE-PROCESS":
+              //D of cruD
+              //PROCESS for the Deleting of Data!
+              //echo $activity . " in DELETE PROCESS section";
+        
+            if($activity=="USER-DELETE-PROCESS") {
+              $sql = "DELETE FROM `tbUsers` WHERE `id` = " .formRequest("id");
+              $conn->exec($sql);
+              echo "DELETED: " . formRequest("id") . "<BR><BR>";
+            }
+
+
+
+
+
+
+
+
+
+
+
 
 
      default://RUN DEFAULT or READ always if blank or READ
