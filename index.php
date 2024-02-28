@@ -190,8 +190,7 @@ if(isset($_REQUEST["activity"])) {
                 <br><form action="index.php">
                   <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
                   <input type="text" name="fdTitle" placeholder="fdTitle"><br>
-                  <textarea name="fdHTML">
-                  </textarea><br>
+                  <textarea name="fdHTML"></textarea><br>
                   <input type="text" name="fdArchive" placeholder="fdArchive" value=0><br>
                   <input type="submit" value="GO!"><br>
                 </form>
@@ -330,9 +329,7 @@ if(isset($_REQUEST["activity"])) {
 
                 $sql = "INSERT INTO `tbContent` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
                                   VALUES ('" . $fdTitle . "'," . $conn->quote($fdHTML) . ",'" . $fdArchive . "',   now(),          now())";
-               echo $sql;
                $conn->exec($sql);
-                echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
               break; 
 
