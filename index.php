@@ -335,7 +335,7 @@ if(isset($_REQUEST["activity"])) {
         
               if($activity=="CONTENT-CREATE-PROCESS") {
                 $sql = "INSERT INTO `tbContent` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
-                                  VALUES ('" . $fdTitle . "','" . $fdHTML . "','" . $fdArchive . "',   now(),          now()')";
+                                  VALUES ('" . $fdTitle . "','" . $fdHTML . "','" . $fdArchive . "',   now(),          now())";
                echo $sql;
                $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
