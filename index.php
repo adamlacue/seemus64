@@ -184,6 +184,21 @@ if(isset($_REQUEST["activity"])) {
 
 
               case "CONTENT":
+
+                ?>
+                <form action="index.php">
+                  <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
+                  <input type="text" name="fdTitle" placeholder="fdTitle"><br>
+                  <textarea name="fdHTML" style="width:500px; height:200px">
+                    Insert text here
+                  </textarea><br>
+                  <input type="text" name="fdDateCreated" placeholder="fdDateCreated"><br>
+                  <input type="text" name="fdDateUpdated" placeholder="fdDateUpdated"><br>
+                  <input type="text" name="fdArchive" placeholder="fdArchive"><br>
+                  <input type="submit" value="GO!"><br>
+                </form>
+                <?php
+
                 $sql = "SELECT id,fdTitle,fdHTML,fdDateCreated,fdDateUpdated,fdArchive FROM `tbContent`";
 
                 $order=formRequest("order");
