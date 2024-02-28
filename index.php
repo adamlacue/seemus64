@@ -321,7 +321,6 @@ if(isset($_REQUEST["activity"])) {
         
         
             case "CONTENT-CREATE-PROCESS":
-              //echo $activity . " in INSERT Processing section";
         
               $fdTitle = formRequest("fdTitle");
               $fdHTML = formRequest("fdHTML");
@@ -335,8 +334,8 @@ if(isset($_REQUEST["activity"])) {
                $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
-              //echo "<BR>".$sql."<BR>";
-              //break; //no break needed so we show the records again  
+              break; 
+
             
             case "CONTENT-UPDATE-PROCESS":
               // U of crUd
@@ -363,6 +362,8 @@ if(isset($_REQUEST["activity"])) {
             }    
             //  echo "<BR>".$sql."<BR>";
               //break; // no Break to show the list again below!
+
+              break;
         
             case "CONTENT-DELETE-PROCESS":
               //D of cruD
