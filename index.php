@@ -187,7 +187,7 @@ if(isset($_REQUEST["activity"])) {
               case "CONTENT":
 
                 ?>
-                <br><form action="index.php">
+                <br><form action="index.php" method="post">
                   <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
                   <input type="text" name="fdTitle" placeholder="fdTitle"><br>
                   <textarea name="fdHTML"></textarea><br>
