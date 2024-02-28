@@ -190,11 +190,9 @@ if(isset($_REQUEST["activity"])) {
                 <br><form action="index.php">
                   <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
                   <input type="text" name="fdTitle" placeholder="fdTitle"><br>
-                  <textarea name="fdHTML" style="width:500px; height:200px">
+                  <textarea name="fdHTML">
                   </textarea><br>
-                  <input type="text" name="fdDateCreated" placeholder="fdDateCreated"><br>
-                  <input type="text" name="fdDateUpdated" placeholder="fdDateUpdated"><br>
-                  <input type="text" name="fdArchive" placeholder="fdArchive"><br>
+                  <input type="text" name="fdArchive" placeholder="fdArchive" value=0><br>
                   <input type="submit" value="GO!"><br>
                 </form>
                 <?php
@@ -279,11 +277,8 @@ if(isset($_REQUEST["activity"])) {
               <form action="index.php">
                 <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
                 <input type="text" name="fdTitle" placeholder="fdTitle"><br>
-                <textarea name="fdHTML" style="width:500px; height:200px">
-                  Insert text here
+                <textarea name="fdHTML">
                 </textarea><br>
-                <input type="text" name="fdDateCreated" placeholder="fdDateCreated"><br>
-                <input type="text" name="fdDateUpdated" placeholder="fdDateUpdated"><br>
                 <input type="text" name="fdArchive" placeholder="fdArchive"><br>
                 <input type="submit" value="GO!"><br>
               </form>
@@ -330,18 +325,14 @@ if(isset($_REQUEST["activity"])) {
         
               $fdTitle = formRequest("fdTitle");
               $fdHTML = formRequest("fdHTML");
-              $fdDateCreated = formRequest("fdDateCreated");
-              $fdDateUpdated = formRequest("fdDateUpdated");
               $fdArchive = formRequest("fdArchive");
         
               if($activity=="CONTENT-CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbContent` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
-                                  VALUES ('" . $fdTitle . "', ? ,'" . $fdArchive . "',   now(),          now())";
 
-                $stmt = $conn->prepare($sql);
-                $stmt->execute($fdHTML);
-               //echo $sql;
-               //$conn->exec($sql);
+                $sql = "INSERT INTO `tbContent` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
+                                  VALUES ('" . $fdTitle . "','" . $conn->quote($fdHTML) . "','" . $fdArchive . "',   now(),          now())";
+               echo $sql;
+               $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
               //echo "<BR>".$sql."<BR>";
