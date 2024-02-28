@@ -15,15 +15,17 @@ if($result) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         ob_clean();
         ?>
-<head>
-    <title>
-        <?= $row["fdTitle"];?>
-    </title>
-</head>
-
-
+<html>
+    <head>
+        <title>
+            <?= $row["fdTitle"];?>
+        </title>
+    </head>
+    <body>
+        <?= $row["fdHTML"];?>
+    </body>
+</html>
 <?php
-        echo $row["fdHTML"];
     }
 }
 
