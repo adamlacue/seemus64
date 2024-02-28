@@ -26,8 +26,8 @@ if(isset($_REQUEST["activity"])) {
     if($_SESSION["fdEmail"]) { 
                 ?>
                 
-                <a href="index.php?activity=FILES">FILES</a>
-                
+                <a href="index.php?activity=FILES">FILES</a> | 
+                <a href="index.php?activity=CONTENT">CONTENT</a> | 
                 <?php
             }
 
