@@ -207,10 +207,13 @@ if(isset($_REQUEST["activity"])) {
               ?>
               <form action="index.php">
                 <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
-                <input type="text" name="firstname" placeholder="firstname"><br>
-                <input type="text" name="lastname" placeholder="lastname"><br>
-                <input type="text" name="email" placeholder="email"><br>
-                <input type="text" name="phone" placeholder="phone"><br>
+                <input type="text" name="fdTitle" placeholder="fdTitle"><br>
+                <textarea name="fdHTML" style="width:500px; height:200px">
+                  Insert text here
+                </textarea><br>
+                <input type="text" name="fdDateCreated" placeholder="fdDateCreated"><br>
+                <input type="text" name="fdDateUpdated" placeholder="fdDateUpdated"><br>
+                <input type="text" name="fdArchive" placeholder="fdArchive"><br>
                 <input type="submit" value="GO!"><br>
               </form>
               <?php
@@ -224,7 +227,7 @@ if(isset($_REQUEST["activity"])) {
               //Show forms for update!
               //echo $activity . " in UPDATE-FORM section";
         
-              $stmt = $conn->prepare("SELECT * FROM `tbUser` WHERE id = ". formRequest("id"));
+              $stmt = $conn->prepare("SELECT * FROM `tbContent` WHERE id = ". formRequest("id"));
               $stmt->execute();
               $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         
@@ -236,10 +239,13 @@ if(isset($_REQUEST["activity"])) {
                 <input type="hidden" name="id" value="<?php echo $row["id"]; ?>">
                 <input type="hidden" name="activity" value="CONTENT-UPDATE-PROCESS">
                 <input type="hidden" name="order" value="<?php echo formRequest("order"); ?>">
-                <input type="text" name="firstname" placeholder="firstname" value="<?php echo $row["firstname"]; ?>"><br>
-                <input type="text" name="lastname" placeholder="lastname" value="<?php echo $row["lastname"]; ?>"><br>
-                <input type="text" name="email" placeholder="email" value="<?php echo $row["email"]; ?>"><br>
-                <input type="text" name="username" placeholder="username" value="<?php echo $row["username"]; ?>"><br>
+                <input type="text" name="fdTitle" placeholder="fdTitle" value="<?php echo $row["fdTitle"]; ?>"><br>
+                <textarea name="fdHTML" style="width:500px; height:200px"><?php echo $row["fdHTML"]; ?>
+                  Insert text here
+                </textarea><br>
+                <input type="text" name="fdDateCreated" placeholder="fdDateCreated" value="<?php echo $row["fdDateCreated"]; ?>"><br>
+                <input type="text" name="fdDateUpdated" placeholder="fdDateUpdated" value="<?php echo $row["fdDateUpdated"]; ?>"><br>
+                <input type="text" name="fdArchive" placeholder="fdArchive" value="<?php echo $row["fdArchive"]; ?>"><br>
                 <input type="submit" value="UPDATE!"><br>
                 </form>
                 <?php
@@ -251,13 +257,15 @@ if(isset($_REQUEST["activity"])) {
             case "CONTENT-CREATE-PROCESS":
               //echo $activity . " in INSERT Processing section";
         
-              $firstname = formRequest("firstname");
-              $lastname = formRequest("lastname");
-              $email = formRequest("email");
-              $phone = formRequest("phone");
+              $fdTitle = formRequest("fdTitle");
+              $fdHTML = formRequest("fdHTML");
+              $fdDateCreated = formRequest("fdDateCreated");
+              $fdDateUpdated = formRequest("fdDateUpdated");
+              $fdArchive = formRequest("fdArchive");
         
               if($activity=="CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbUsers` (`firstname`, `lastname`, `email`, `username`) VALUES ('" . $firstname . "','" . $lastname . "','" . $email . "','" . $phone . "')";
+                $sql = "INSERT INTO `tbUsers` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
+                                  VALUES ('" . $fdTitle . "','" . $fdHTML . "','" . $fdArchive . "',   now(),          now()')";
                 $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
@@ -269,17 +277,19 @@ if(isset($_REQUEST["activity"])) {
               //Update actual Data!
               //echo $activity . " in UPDATE-PROCESS section";
           
-              $firstname = formRequest("firstname");
-              $lastname = formRequest("lastname");
-              $email = formRequest("email");
-              $phone = formRequest("phone");
+              $fdTitle = formRequest("fdTitle");
+              $fdHTML = formRequest("fdHTML");
+              $fdDateCreated = formRequest("fdDateCreated");
+              $fdDateUpdated = formRequest("fdDateUpdated");
+              $fdArchive = formRequest("fdArchive");
           
             if($activity=="CONTENT-UPDATE-PROCESS") {
-              $sql = "UPDATE `tbUsers` 
-                      SET `firstname`='" . $firstname . "',
-                          `lastname`='" . $lastname . "', 
-                          `email`='" . $email . "', 
-                          `phone`='" . $phone . "'
+              $sql = "UPDATE `tbContent` 
+                      SET `fdTitle`='" . $fdTitle . "',
+                          `fdHTML`='" . $fdHTML . "', 
+                          `fdDateCreated`='" . $fdDateCreated . "',
+                          `fdDateUpdated`='" . $fdDateUpdated . "', 
+                          `fdArchive`='" . $fdArchive . "'
                       WHERE id = " . formRequest("id");
               $conn->exec($sql);
               echo "UPDATED: " . formRequest("id") . "<BR>";
@@ -294,14 +304,14 @@ if(isset($_REQUEST["activity"])) {
               //echo $activity . " in DELETE PROCESS section";
         
             if($activity=="CONTENT-DELETE-PROCESS") {
-              $sql = "DELETE FROM `tbUsers` WHERE `id` = " .formRequest("id");
+              $sql = "DELETE FROM `tbContent` WHERE `id` = " .formRequest("id");
               $conn->exec($sql);
               echo "DELETED: " . formRequest("id") . "<BR><BR>";
             }
 
             case "CONTENT": // File Listing
 
-              $sql = "SELECT id,fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
+              $sql = "SELECT id,fdTitle,fdHTML,fdDateCreated,fdDateUpdated,fdArchive FROM `tbContent`";
 
               $order=formRequest("order");
               if($order!=""){
