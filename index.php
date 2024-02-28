@@ -184,7 +184,7 @@ if(isset($_REQUEST["activity"])) {
 
 
               case "CONTENT":
-                $sql = "SELECT id,fdFilename,fdFileType,fdFileSize,fdDateTime,fdArchive FROM `tbFiles`";
+                $sql = "SELECT id,fdTitle,fdHTML,fdDateCreated,fdDateUpdated,fdArchive FROM `tbContent`";
 
                 $order=formRequest("order");
                 if($order!=""){
