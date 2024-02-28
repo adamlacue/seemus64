@@ -14,6 +14,15 @@ $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 if($result) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         ob_clean();
+        ?>
+<head>
+    <title>
+        <?= $row["fdTitle"];?>
+    </title>
+</head>
+
+
+<?php
         echo $row["fdHTML"];
     }
 }
