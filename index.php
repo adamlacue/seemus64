@@ -28,6 +28,7 @@ if(isset($_REQUEST["activity"])) {
                 
                 <a href="index.php?activity=FILES">FILES</a> | 
                 <a href="index.php?activity=CONTENT">CONTENT</a> | 
+                <a href="index.php?activity=USER-CREATE">USER-CREATE</a> | 
                 <?php
             }
 
@@ -37,7 +38,7 @@ if(isset($_REQUEST["activity"])) {
               ?><a href="index.php?activity=USER">LOGON</a><?php
           }
             ?>
-      |<a href="index.php?activity=USER-CREATE">USER-CREATE</a>
+
 
         <?php
         
