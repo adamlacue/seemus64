@@ -186,11 +186,10 @@ if(isset($_REQUEST["activity"])) {
               case "CONTENT":
 
                 ?>
-                <form action="index.php">
+                <br><form action="index.php">
                   <input type="hidden" name="activity" value="CONTENT-CREATE-PROCESS">
                   <input type="text" name="fdTitle" placeholder="fdTitle"><br>
                   <textarea name="fdHTML" style="width:500px; height:200px">
-                    Insert text here
                   </textarea><br>
                   <input type="text" name="fdDateCreated" placeholder="fdDateCreated"><br>
                   <input type="text" name="fdDateUpdated" placeholder="fdDateUpdated"><br>
@@ -334,10 +333,11 @@ if(isset($_REQUEST["activity"])) {
               $fdDateUpdated = formRequest("fdDateUpdated");
               $fdArchive = formRequest("fdArchive");
         
-              if($activity=="CREATE-PROCESS") {
-                $sql = "INSERT INTO `tbUsers` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
+              if($activity=="CONTENT-CREATE-PROCESS") {
+                $sql = "INSERT INTO `tbContent` (`fdTitle`,         `fdHTML`,         `fdArchive`,     `fdDateCreated`, `fdDateUpdated`)
                                   VALUES ('" . $fdTitle . "','" . $fdHTML . "','" . $fdArchive . "',   now(),          now()')";
-                $conn->exec($sql);
+               
+               $conn->exec($sql);
                 echo "INSERTED: " . $conn->lastInsertId() . "<BR><BR>";
               }
               //echo "<BR>".$sql."<BR>";
