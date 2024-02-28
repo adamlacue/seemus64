@@ -235,8 +235,8 @@ if(isset($_REQUEST["activity"])) {
                     echo "<td>" . $i . "</td>";
                     $i=$i+1;
                     //echo "<td><a href=\"index.php?activity=FILE-UPDATE-FORM&id=" . $row["id"] . "&order=$order\">UPDATE</a></td>";
-                    echo "<td><a href=\"index.php?activity=FILE-DELETE-PROCESS&id=".$row["id"]."&order=$order\">DELETE</a></td>";
-                    echo "<td><a href=\"view.php?id=".$row["id"]."\" target=\"_blank\">VIEW</a></td>";
+                    echo "<td><a href=\"index.php?activity=CONTENT-DELETE-PROCESS&id=".$row["id"]."&order=$order\">DELETE</a></td>";
+                    echo "<td><a href=\"content.php?id=".$row["id"]."\" target=\"_blank\">VIEW</a></td>";
                     foreach($row as $col_name => $val) {
                       echo "<td>$val</td>";    // Print Each Field VALUE
                     }
